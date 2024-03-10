@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.QMemberDto;
 import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
@@ -500,7 +501,7 @@ public class QueryDslBasicTest {
     @Test
     public void tupleProjection() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-        List<Tuple> result = queryFactory
+        List<Tuple> result = queryFactory //Tuple 은 가급적으로 repository 안에서만 사용
                 .select(member.username, member.age)
                 .from(member)
                 .fetch();
@@ -595,6 +596,19 @@ public class QueryDslBasicTest {
                 .fetch();
 
         for (UserDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
+        }
+    }
+
+    @Test
+    public void findDtoByQueryProjection() {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
+
+        for (MemberDto memberDto : result) {
             System.out.println("memberDto = " + memberDto);
         }
     }
