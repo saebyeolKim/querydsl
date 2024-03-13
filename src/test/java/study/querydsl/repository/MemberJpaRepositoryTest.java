@@ -60,12 +60,12 @@ class MemberJpaRepositoryTest {
 
         MemberSearchCondition condition = new MemberSearchCondition();
         //조건이 없다면 다 긁어 오기때문에 limit 혹은 기본 조건이 있어야 함
-//        condition.setAgeGoe(35);
-//        condition.setAgeLoe(40);
-//        condition.setTeamName("teamB");
+        condition.setAgeGoe(35);
+        condition.setAgeLoe(40);
+        condition.setTeamName("teamB");
 
-        List<MemberTeamDto> result = memberJpaRepository.searchByBuilder(condition);
-        assertThat(result).extracting("username").containsExactly("member3", "member4");
+        List<MemberTeamDto> result = memberJpaRepository.search(condition);
+        assertThat(result).extracting("username").containsExactly("member4");
     }
 
 }
